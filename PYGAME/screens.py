@@ -32,20 +32,33 @@ def autenticacion(display: pygame.Surface,
                   click_pos: tuple[int]) -> str:
     
     # Contenido de la Pantalla
-    button_iniciar_sesion = Button(300, 100, 200, 50,
-                                   "Iniciar Sesion", "TyC")
-    button_crear_cuenta = Button(300, 300, 200, 50,
-                                 "Crear Cuenta", "TyC")
-    display.blit(button_iniciar_sesion.image,
-                 button_iniciar_sesion.rect)
-    display.blit(button_crear_cuenta.image,
-                 button_crear_cuenta.rect)
+    buttons = [
+        Button(width/2 - 100, height/2 - 80, 200, 50, "Iniciar Sesion", "Autenticacion"),
+        Button(width/2 - 100, height/2 + 30, 200, 50, "Crear Cuenta", "TyC")
+    ]
+
+    # button_iniciar_sesion = Button(300, 100, 200, 50,
+    #                                "Iniciar Sesion", "TyC")
+    # button_crear_cuenta = Button(300, 300, 200, 50,
+    #                              "Crear Cuenta", "TyC")
+    
+    for button in buttons:
+        display.blit(button.image, button.rect)
+
+    # display.blit(button_iniciar_sesion.image,
+    #              button_iniciar_sesion.rect)
+    # display.blit(button_crear_cuenta.image,
+    #              button_crear_cuenta.rect)
 
     # Funcionalidad Botón de Iniciar Sesión
-    if (button_iniciar_sesion.rect.collidepoint(click_pos)):
-        return "Menu"
-    if (button_crear_cuenta.rect.collidepoint(click_pos)):
-        return "Crear Cuenta"
+    for button in buttons:
+        if (button.rect.collidepoint(click_pos)):
+            return button.to
+
+    # if (button_iniciar_sesion.rect.collidepoint(click_pos)):
+    #     return "Menu"
+    # if (button_crear_cuenta.rect.collidepoint(click_pos)):
+    #     return "Crear Cuenta"
     
     return "Autenticacion"
 
@@ -83,34 +96,25 @@ def menu(display: pygame.Surface,
     display.blit(game_title, (400, 200))
 
     # Botones
-    button_cuenta = Button(10, 10, 150, 50,
-                           "Cuenta", "Cuenta")
-    button_tokens = Button(900-10-150, 10, 150, 50,
-                           "Tokens", "Tokens")
-    button_pers = Button(10, 500-10-50, 150, 50,
-                         "Personalizacion", "Personalizacion")
-    button_info = Button(900-10-150, 500-10-50, 150, 50,
-                         "Informacion", "Informacion")
-    display.blit(button_cuenta.image,
-                 button_cuenta.rect)
-    display.blit(button_tokens.image,
-                 button_tokens.rect)
-    display.blit(button_pers.image,
-                 button_pers.rect)
-    display.blit(button_info.image,
-                 button_info.rect)
+    buttons = [
+        Button(10, 10, 150, 50, "Cuenta", "Cuenta"),
+        Button(width - 160, 10, 150, 50, "Tokens", "Tokens"),
+        Button(10, height - 60, 150, 50, "Personalizacion", "Personalizacion"),
+        Button(width - 80, height - 80, 70, 70, "", "Informacion", "PYGAME/images/info_button.png")
+    ]
+    
+    # Dibujar los botones
+    for button in buttons:
+        display.blit(button.image, button.rect)
+    
+    info = pygame.image.load("PYGAME/images/info_icon.png")
+    info = pygame.transform.scale(info, (0.6*info.get_width(), 0.6*info.get_height()))
+    display.blit(info, (width - 52, height - 65))
 
-    name = font.render("[menu]", True, white)
-    display.blit(name, (400, 100))
-
-    if (button_cuenta.rect.collidepoint(click_pos)):
-        return "Cuenta"
-    if (button_tokens.rect.collidepoint(click_pos)):
-        return "Tokens"
-    if (button_pers.rect.collidepoint(click_pos)):
-        return "Personalizacion"
-    if (button_info.rect.collidepoint(click_pos)):
-        return "Informacion"
+    # Recibir clicks en los botones
+    for button in buttons:
+        if (button.rect.collidepoint(click_pos)):
+            return button.to
 
     return "Menu"
 

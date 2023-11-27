@@ -18,13 +18,18 @@ pygame.display.set_caption("Apuntado")
 icon = pygame.image.load("PYGAME/images/icon.png")
 pygame.display.set_icon(icon)
 
+# Cargar el Fondo
+bg = pygame.image.load("PYGAME/images/bg.png").convert()
+bg = pygame.transform.scale(bg, (width, height))
+
 # El aplicativo comienza en la Pantalla "Autenticacion"
 screen = "Autenticacion"
 
 # Ciclo del Juego
 while True:
     # "Dibujar" el color de fondo del aplicativo
-    display.fill((150, 0, 50))
+    # display.fill((150, 0, 50))
+    display.blit(bg, (0, 0))
 
     # Si no se ha hecho click, no se acciona nada
     click_pos = (0, 0)
