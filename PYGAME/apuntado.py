@@ -4,6 +4,7 @@ ejecuta el Juego.
 
 import pygame
 from screens import *
+from objects import *
 
 # Parámetros del Programa
 width, height = 900, 500
@@ -11,9 +12,13 @@ width, height = 900, 500
 # Inicialización
 pygame.init()
 display = pygame.display.set_mode((width, height))
+
+# Título e Icono de la Ventana
 pygame.display.set_caption("Apuntado")
 icon = pygame.image.load("PYGAME/images/icon.png")
 pygame.display.set_icon(icon)
+
+# El aplicativo comienza en la Pantalla "Autenticacion"
 screen = "Autenticacion"
 
 # Ciclo del Juego
@@ -60,5 +65,12 @@ while True:
             screen = informacion(display, click_pos)
         case "Bot":
             screen = bot(display, click_pos)
+    
+    # [para facilitar Debugging]
+    button_menu = Button(450-100/2, 500-10-50, 100, 50,
+                         "Menu", "Menu")
+    display.blit(button_menu.image, button_menu.rect)
+    if (button_menu.rect.collidepoint(click_pos)):
+        screen = "Menu"
 
     pygame.display.update()
