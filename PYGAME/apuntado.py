@@ -7,7 +7,7 @@ from screens import *
 from objects import *
 
 # Parámetros del Programa
-width, height = 900, 500
+width, height = 900, 700
 
 # Inicialización
 pygame.init()
@@ -28,11 +28,11 @@ screen = "Autenticacion"
 # Ciclo del Juego
 while True:
     # "Dibujar" el color de fondo del aplicativo
-    # display.fill((150, 0, 50))
     display.blit(bg, (0, 0))
 
     # Si no se ha hecho click, no se acciona nada
     click_pos = (0, 0)
+    pressed_key = ""
 
     # Recibir eventos
     for event in pygame.event.get():
@@ -48,13 +48,16 @@ while True:
         if (event.type == pygame.MOUSEBUTTONDOWN
             and event.button == 1):
             click_pos = pygame.mouse.get_pos()
+        
+        if (event.type == pygame.KEYDOWN):
+            pressed_key = event.unicode
     
     # Pantalla a mostrar
     match screen:
         case "Autenticacion":
             screen = autenticacion(display, click_pos)
         case "Crear Cuenta":
-            screen = crear_cuenta(display, click_pos)
+            screen = crear_cuenta(display, click_pos, pressed_key)
         case "TyC":
             screen = tyc(display, click_pos)
         case "Menu":
@@ -72,7 +75,7 @@ while True:
             screen = bot(display, click_pos)
     
     # [para facilitar Debugging]
-    button_menu = Button(450-100/2, 500-10-50, 100, 50,
+    button_menu = Button(width//2 - 100/2, height - 80, 100, 50,
                          "Menu", "Menu")
     display.blit(button_menu.image, button_menu.rect)
     if (button_menu.rect.collidepoint(click_pos)):

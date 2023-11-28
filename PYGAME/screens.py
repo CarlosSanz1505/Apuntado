@@ -24,52 +24,54 @@ import pygame
 from objects import *
 
 # Parámetros
-width, height = 900, 500
+width, height = 900, 700
 bg_color = (150, 0, 50)
+btn_width, btn_height = 180, 80
 
 # CARLOS
 def autenticacion(display: pygame.Surface,
                   click_pos: tuple[int]) -> str:
     
-    # Contenido de la Pantalla
+    coin_bg = pygame.image.load("PYGAME/images/coin_bg.png").convert_alpha()
+    coin_bg = pygame.transform.scale(coin_bg, (1.3*900, 1.3*565))
+    display.blit(coin_bg, (-70, -30))
+
     buttons = [
-        Button(width/2 - 100, height/2 - 80, 200, 50, "Iniciar Sesion", "Autenticacion"),
-        Button(width/2 - 100, height/2 + 30, 200, 50, "Crear Cuenta", "TyC")
+        Button(width//2 - 100, height//2 - 80, 200, 80, "Iniciar Sesion", "Autenticacion"),
+        Button(width//2 - 100, height//2 + 30, 200, 80, "Crear Cuenta", "Crear Cuenta")
     ]
 
-    # button_iniciar_sesion = Button(300, 100, 200, 50,
-    #                                "Iniciar Sesion", "TyC")
-    # button_crear_cuenta = Button(300, 300, 200, 50,
-    #                              "Crear Cuenta", "TyC")
-    
     for button in buttons:
         display.blit(button.image, button.rect)
-
-    # display.blit(button_iniciar_sesion.image,
-    #              button_iniciar_sesion.rect)
-    # display.blit(button_crear_cuenta.image,
-    #              button_crear_cuenta.rect)
 
     # Funcionalidad Botón de Iniciar Sesión
     for button in buttons:
         if (button.rect.collidepoint(click_pos)):
             return button.to
-
-    # if (button_iniciar_sesion.rect.collidepoint(click_pos)):
-    #     return "Menu"
-    # if (button_crear_cuenta.rect.collidepoint(click_pos)):
-    #     return "Crear Cuenta"
     
     return "Autenticacion"
 
 # CARLOS
 def crear_cuenta(display: pygame.Surface,
-                 click_pos: tuple[int]) -> str:
+                 click_pos: tuple[int],
+                 typed_key: str) -> str:
     
+    # Borrador
     font = pygame.font.Font(None, 30)
     white = (255, 255, 255)
     name = font.render("[crear cuenta]", True, white)
     display.blit(name, (400, 100))
+
+    txt_nombre = TextField(0, 0, 200, 50, "Type here...")
+    display.blit(txt_nombre.image, txt_nombre.rect)
+
+    if (txt_nombre.rect.collidepoint(click_pos)):
+        txt_nombre.text = ""
+        txt_nombre.is_selected = True
+    
+    if (typed_key != ""
+        and txt_nombre.is_selected):
+        txt_nombre.text += typed_key
 
     return "Crear Cuenta"
 
@@ -89,27 +91,47 @@ def tyc(display: pygame.Surface,
 def menu(display: pygame.Surface,
          click_pos: tuple[int]) -> str:
     
-    # Contenido de la Pantalla
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    game_title = font.render("APUNTADO", True, white)
-    display.blit(game_title, (400, 200))
+    # Título
+    title = pygame.image.load("PYGAME/images/title.png").convert_alpha()
+    title = pygame.transform.scale(title, (500, 140))
+    display.blit(title, (width//2 - 250, 180))
 
     # Botones
     buttons = [
-        Button(10, 10, 150, 50, "Cuenta", "Cuenta"),
-        Button(width - 160, 10, 150, 50, "Tokens", "Tokens"),
-        Button(10, height - 60, 150, 50, "Personalizacion", "Personalizacion"),
-        Button(width - 80, height - 80, 70, 70, "", "Informacion", "PYGAME/images/info_button.png")
+        Button(10, 15, 250, 100, "", "Cuenta", "PYGAME/images/blue_button.png"),
+        Button(width - 140, 60, 130, 70, "Tokens", "Tokens", "PYGAME/images/gold_button.png", font_size=22),
+        Button(10, height - btn_height - 10, btn_width, btn_height - 10, "Personalizacion", "Personalizacion", font_size=22),
+        Button(width - 90, height - 100, 85, 90, "", "Informacion", "PYGAME/images/info_button.png"),
+        Button(width//2 - 195, height//2, 185, 185, "", "Bot", "PYGAME/images/bot_button.png"),
+        Button(width//2 + 20, height//2, 185, 185, "", "Menu", "PYGAME/images/mp_button.png"),
     ]
     
     # Dibujar los botones
     for button in buttons:
         display.blit(button.image, button.rect)
     
+    # Extra Cuenta
+    joker = pygame.transform.scale(pygame.image.load("PYGAME/images/joker.png").convert_alpha(), (90, 90))
+    mummy = pygame.transform.scale(pygame.image.load("PYGAME/images/mummy.png").convert_alpha(), (90, 90))
+    vampire = pygame.transform.scale(pygame.image.load("PYGAME/images/vampire.png").convert_alpha(), (90, 90))
+    zombie = pygame.transform.scale(pygame.image.load("PYGAME/images/zombie.png").convert_alpha(), (90, 90))
+    frankenstein = pygame.transform.scale(pygame.image.load("PYGAME/images/frankenstein.png").convert_alpha(), (90, 90))
+    display.blit(zombie, (10, 10))
+
+    font = pygame.font.Font("PYGAME/fonts/Koulen-Regular.ttf", 24)
+    nombre = font.render("UNNAMED", True, (255, 255, 255))
+    saldo = font.render("$XX XXX", True, (255, 255, 255))
+    display.blit(nombre, (110, 20))
+    display.blit(saldo, (110, 45))
+
+    # Extra Tokens
+    tokens_icon = pygame.transform.scale(pygame.image.load("PYGAME/images/tokens_icon.png").convert_alpha(), (120, 60))
+    display.blit(tokens_icon, (width - 135, 15))
+
+    # Extra Info
     info = pygame.image.load("PYGAME/images/info_icon.png")
     info = pygame.transform.scale(info, (0.6*info.get_width(), 0.6*info.get_height()))
-    display.blit(info, (width - 52, height - 65))
+    display.blit(info, (width - 60, height - 80))
 
     # Recibir clicks en los botones
     for button in buttons:

@@ -2,12 +2,11 @@
 
 ## Backlog
 
-### Mockup:
+### Mockup
 
 - Añadir advertencia de riesgos de apuestas en los Términos y Condiciones.
 
-
-### Producto Final:
+### Producto Final
 
 - [ ] ***CREAR CUENTA*** (una sola vez, no hay que volver a Iniciar Sesión).
 
@@ -26,15 +25,20 @@
 
 - [ ] ***INFORMACIÓN DEL JUEGO ("Reglas y demás que consideremos importante")***.
 
+### Pantallas
+
+- [x] Autenticación
+- [ ] Crear Cuenta
+- [ ] Términos y Condiciones
+- [x] Menú
+- [ ] Cuenta (OPCIONAL)
+- [ ] Tokens
+- [ ] Personalizar
+- [ ] Información: Reglas y Tutorial
+- [ ] Bot
+
 ## Tecnologías:
 
-Se desarrolla el aplicativo como un sitio web, programado usando:
+Se desarrolla el aplicativo como un ejecutable, programado usando:
 
-- `HTML`
-- `JavaScript`
-- `CSS`
-
-## Desarrolladores:
-
-- Carlos Andres Sanchez Ortega
-- Victor Manuel Duque Vasquez
+- `pygame`
