@@ -1,4 +1,4 @@
-"""Objectos básicos recurrentes en el
+"""Objetos básicos recurrentes en el
 aplicativo.
 """
 
@@ -34,15 +34,15 @@ class TextField(pygame.sprite.Sprite):
                  height: int,
                  text: str,
                  style: str = "PYGAME/images/txt_field.png",
-                 font_size: int = 26):
+                 font_size: int = 20):
         
         super().__init__()
         image = pygame.image.load(style).convert_alpha()
         self.image = pygame.transform.scale(image, (width, height))
-        font = pygame.font.Font("PYGAME/fonts/Kufam-VariableFont_wght.ttf", font_size)
+        font = pygame.font.Font("PYGAME/fonts/Kufam-Regular.ttf", font_size)
         self.text = text
-        text_render = font.render(self.text, True, (0, 0, 0))
-        text_rect = text_render.get_rect(center=(width // 2, height // 2))
+        text_render = font.render(self.text, True, (133, 133, 133))
+        text_rect = text_render.get_rect(topleft=(25, 10))
         self.image.blit(text_render, text_rect)
         self.rect = self.image.get_rect(topleft=(x, y))
         self.is_selected = False

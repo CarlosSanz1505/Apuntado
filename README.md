@@ -1,5 +1,7 @@
 # Proyecto Apuntado
 
+Ejecutable: `apuntado.py`
+
 ## Backlog
 
 ### Mockup

@@ -54,24 +54,30 @@ def autenticacion(display: pygame.Surface,
 # CARLOS
 def crear_cuenta(display: pygame.Surface,
                  click_pos: tuple[int],
+                 form_values: list[str],
                  typed_key: str) -> str:
     
-    # Borrador
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    name = font.render("[crear cuenta]", True, white)
-    display.blit(name, (400, 100))
+    # "Nueva Cuenta"
+    font = pygame.font.Font("PYGAME/fonts/Krub-Regular.ttf", 60)
+    name = font.render("Nueva Cuenta", True, (255, 255, 255))
+    display.blit(name, (width//2 - 195, 60))
 
-    txt_nombre = TextField(0, 0, 200, 50, "Type here...")
-    display.blit(txt_nombre.image, txt_nombre.rect)
+    # Campos de Texto
+    fields = [TextField(150, 200 + 50*i, 600, 40, form_values[i]) for i in range(7)]
 
-    if (txt_nombre.rect.collidepoint(click_pos)):
-        txt_nombre.text = ""
-        txt_nombre.is_selected = True
-    
-    if (typed_key != ""
-        and txt_nombre.is_selected):
-        txt_nombre.text += typed_key
+    for field in fields:
+        display.blit(field.image, field.rect)
+
+    # Botones
+    buttons = [
+        Button(20, height - 80, 60, 60, "", "Autenticacion", "PYGAME/images/back_button1.png.png"),
+        Button(width//2 - 100, height - 100, 200, 80, "Crear Cuenta", "Menu")
+    ]
+
+    for button in buttons:
+        display.blit(button.image, button.rect)
+        if (button.rect.collidepoint(click_pos)):
+            return button.to
 
     return "Crear Cuenta"
 

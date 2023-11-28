@@ -25,6 +25,16 @@ bg = pygame.transform.scale(bg, (width, height))
 # El aplicativo comienza en la Pantalla "Autenticacion"
 screen = "Autenticacion"
 
+form_values = [
+    "Nombre",
+    "Apellido",
+    "Fecha de Nacimiento",
+    "Teléfono Celular",
+    "Contraseña",
+    "Confirmar Contraseña",
+    "Apodo"
+]
+
 # Ciclo del Juego
 while True:
     # "Dibujar" el color de fondo del aplicativo
@@ -57,7 +67,7 @@ while True:
         case "Autenticacion":
             screen = autenticacion(display, click_pos)
         case "Crear Cuenta":
-            screen = crear_cuenta(display, click_pos, pressed_key)
+            screen = crear_cuenta(display, click_pos, form_values, pressed_key)
         case "TyC":
             screen = tyc(display, click_pos)
         case "Menu":
@@ -75,7 +85,7 @@ while True:
             screen = bot(display, click_pos)
     
     # [para facilitar Debugging]
-    button_menu = Button(width//2 - 100/2, height - 80, 100, 50,
+    button_menu = Button(width//2 - 100/2, 20, 100, 50,
                          "Menu", "Menu")
     display.blit(button_menu.image, button_menu.rect)
     if (button_menu.rect.collidepoint(click_pos)):
