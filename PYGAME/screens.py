@@ -20,6 +20,7 @@ PANTALLAS:
     ```
     """
 
+import random
 import pygame
 from objects import *
 
@@ -255,12 +256,72 @@ def informacion(display: pygame.Surface,
 
 # CARLOS
 def bot(display: pygame.Surface,
-           click_pos: tuple[int]):
+           click_pos: tuple[int],
+           cards: list[pygame.Surface],
+           hand_set: bool = False) -> tuple[str, bool]:
     
-    # Borrador
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    name = font.render("[bot]", True, white)
-    display.blit(name, (400, 100))
+    # Mesa
+    table = pygame.image.load("PYGAME/images/table.png").convert_alpha()
+    table = pygame.transform.scale(table, (500, 440))
+    display.blit(table, (width//2 - 250, 100))
 
-    return "Bot"
+    # Mano del Jugador
+    hand = pygame.image.load("PYGAME/images/hand.png").convert_alpha()
+    hand = pygame.transform.scale(hand, (550, 200))
+    display.blit(hand, (width//2 - 290, 500))
+
+    # Avatares
+    # file = open("PYGAME/jugadores.txt", "r")
+    # player = file.readline().split()[-1]
+    player = pygame.image.load("PYGAME/images/zombie.png").convert_alpha()
+    player = pygame.transform.scale(player, (100, 100))
+    bot = pygame.image.load("PYGAME/images/frankenstein.png").convert_alpha()
+    bot = pygame.transform.scale(bot, (100, 100))
+    display.blit(player, (width//2 - 250, height//2))
+    display.blit(bot, (width//2 + 115, height//2 - 200))
+    font = pygame.font.Font("PYGAME/fonts/Kufam-Regular.ttf", 20)
+    player_name = font.render("C4RL05", True, (255, 255, 255))
+    display.blit(player_name, (width//2 - 235, height//2 + 100))
+
+    # Mazo de Cartas
+    card_back1 = pygame.image.load("PYGAME/images/Cartas/Back Side 1.png").convert_alpha()
+    card_back1 = pygame.transform.scale(card_back1, (70, 100))
+    card_back2 = pygame.image.load("PYGAME/images/Cartas/Back Side 2.png").convert_alpha()
+    card_back2 = pygame.transform.scale(card_back2, (70, 100))
+    display.blit(card_back1, (width//2 - 50, width//2 - 200))
+    display.blit(card_back2, (width//2 - 55, width//2 - 205))
+
+    # Mano de Cartas
+    nums = [f"{num:02}" for num in list(range(1, 62))]
+    not_nums = ["38", "39", "40", "46", "47", "48", "54", "55", "56"]
+    for num in not_nums:
+        nums.remove(num)
+    
+    # Elegir cartas aleatoriamente, sin repetición
+    if (len(cards) == 0):
+        for i in range(10):
+            num = random.choice(nums)
+            nums.remove(num)
+            path = "PYGAME/images/Cartas/Card-"+num+".png"
+            card = pygame.image.load(path).convert_alpha()
+            card = pygame.transform.scale(card, (50, 70))
+            cards.append(card)
+    
+    for i, card in enumerate(cards):
+        display.blit(card, (200 + 55*(i%5), 520 + 80*(i//5)))
+
+    # Botones [Puntajes, Abandonar, Tocar, Ganar]
+    buttons = [
+        Button(10, 10, 110, 100, "", "Bot", "PYGAME/images/score_button.png"),
+        Button(20, height - 110, 110, 100, "", "Menu", "PYGAME/images/exit_button.png"),
+        Button(width//2 + 100, 530, 120, 80, "TOCAR", "Bot"),
+        Button(width//2 + 100, 600, 120, 80, "GANAR", "Bot")
+    ]
+    for button in buttons:
+        display.blit(button.image, button.rect)
+        if (button.rect.collidepoint(click_pos)):
+            if (button.to == "Menu"):
+                cards = []
+            return button.to, cards
+
+    return "Bot", cards

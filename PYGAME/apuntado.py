@@ -43,6 +43,9 @@ form = [
 ]
 error = False
 
+# Cartas del Juego
+cards = []
+
 # Ciclo del Juego
 while True:
     # "Dibujar" el color de fondo del aplicativo
@@ -92,7 +95,7 @@ while True:
         case "Informacion":
             screen = informacion(display, click_pos)
         case "Bot":
-            screen = bot(display, click_pos)
+            screen, cards = bot(display, click_pos, cards)
     
     # [para facilitar Debugging]
     button_menu = Button(width//2 - 100/2, 20, 100, 50,
