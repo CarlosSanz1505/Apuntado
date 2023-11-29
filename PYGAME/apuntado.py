@@ -2,6 +2,7 @@
 ejecuta el Juego.
 """
 
+import os
 import pygame
 from screens import *
 from objects import *
@@ -22,18 +23,25 @@ pygame.display.set_icon(icon)
 bg = pygame.image.load("PYGAME/images/bg.png").convert()
 bg = pygame.transform.scale(bg, (width, height))
 
-# El aplicativo comienza en la Pantalla "Autenticacion"
-screen = "Autenticacion"
+# Determinar Pantalla al inicializar el aplicativo
+# Si ya hay un jugador registrado -> Menu
+if (os.stat("PYGAME/jugadores.txt").st_size == 0):
+    screen = "Autenticacion"
+else:
+    screen = "Menu"
 
-form_values = [
-    "Nombre",
-    "Apellido",
-    "Fecha de Nacimiento",
-    "Teléfono Celular",
-    "Contraseña",
-    "Confirmar Contraseña",
-    "Apodo"
+# Valores del Formulario en "Crear Cuenta"
+# [TEXTO_DEFAULT, TEXTO_INGRESADO, IS_SELECTED, IS_DEFAULT]
+form = [
+    ["Nombre", "Nombre", False, (133, 133, 133)],
+    ["Apellido", "Apellido", False, (133, 133, 133)],
+    ["Fecha de Nacimiento", "Fecha de Nacimiento", False, (133, 133, 133)],
+    ["Teléfono Celular", "Teléfono Celular", False, (133, 133, 133)],
+    ["Contraseña", "Contraseña", False, (133, 133, 133)],
+    ["Confirmar Contraseña", "Confirmar Contraseña", False, (133, 133, 133)],
+    ["Apodo", "Apodo", False, (133, 133, 133)]
 ]
+error = False
 
 # Ciclo del Juego
 while True:
@@ -41,8 +49,9 @@ while True:
     display.blit(bg, (0, 0))
 
     # Si no se ha hecho click, no se acciona nada
+    on_click = False
     click_pos = (0, 0)
-    pressed_key = ""
+    pressed_key = None
 
     # Recibir eventos
     for event in pygame.event.get():
@@ -58,16 +67,17 @@ while True:
         if (event.type == pygame.MOUSEBUTTONDOWN
             and event.button == 1):
             click_pos = pygame.mouse.get_pos()
+            on_click = True
         
         if (event.type == pygame.KEYDOWN):
-            pressed_key = event.unicode
+            pressed_key = event
     
     # Pantalla a mostrar
     match screen:
         case "Autenticacion":
             screen = autenticacion(display, click_pos)
         case "Crear Cuenta":
-            screen = crear_cuenta(display, click_pos, form_values, pressed_key)
+            screen, form, data, error = crear_cuenta(display, on_click, click_pos, form, pressed_key, error)
         case "TyC":
             screen = tyc(display, click_pos)
         case "Menu":

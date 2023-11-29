@@ -32,20 +32,25 @@ class TextField(pygame.sprite.Sprite):
                  y: int,
                  width: int,
                  height: int,
+                 initial_text: str,
                  text: str,
                  style: str = "PYGAME/images/txt_field.png",
-                 font_size: int = 20):
+                 font_size: int = 20,
+                 font_color: tuple[int] = (133, 133, 133),
+                 is_selected: bool = False):
         
         super().__init__()
         image = pygame.image.load(style).convert_alpha()
         self.image = pygame.transform.scale(image, (width, height))
         font = pygame.font.Font("PYGAME/fonts/Kufam-Regular.ttf", font_size)
         self.text = text
-        text_render = font.render(self.text, True, (133, 133, 133))
+        self.font_color = font_color
+        text_render = font.render(self.text, True, font_color)
         text_rect = text_render.get_rect(topleft=(25, 10))
         self.image.blit(text_render, text_rect)
         self.rect = self.image.get_rect(topleft=(x, y))
-        self.is_selected = False
+        self.is_selected = is_selected
+        self.initial_text = initial_text
 
 
 # class TextField(pygame.sprite.Sprite):

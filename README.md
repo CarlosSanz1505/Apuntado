@@ -30,7 +30,7 @@ Ejecutable: `apuntado.py`
 ### Pantallas
 
 - [x] Autenticación
-- [ ] Crear Cuenta
+- [x] Crear Cuenta
 - [ ] Términos y Condiciones
 - [x] Menú
 - [ ] Cuenta (OPCIONAL)

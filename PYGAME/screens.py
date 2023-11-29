@@ -53,9 +53,11 @@ def autenticacion(display: pygame.Surface,
 
 # CARLOS
 def crear_cuenta(display: pygame.Surface,
+                 on_click: bool,
                  click_pos: tuple[int],
-                 form_values: list[str],
-                 typed_key: str) -> str:
+                 form_values: list[list[str, bool]],
+                 typed_key: pygame.event.Event,
+                 error: bool) -> tuple[str, list, list]:
     
     # "Nueva Cuenta"
     font = pygame.font.Font("PYGAME/fonts/Krub-Regular.ttf", 60)
@@ -63,23 +65,78 @@ def crear_cuenta(display: pygame.Surface,
     display.blit(name, (width//2 - 195, 60))
 
     # Campos de Texto
-    fields = [TextField(150, 200 + 50*i, 600, 40, form_values[i]) for i in range(7)]
-
+    fields = [TextField(150, 200 + 50*i, 600, 40,
+                        form_values[i][0],
+                        form_values[i][1],
+                        is_selected=form_values[i][2],
+                        font_color=form_values[i][3]) for i in range(7)]
     for field in fields:
+        if (on_click):
+            if (field.rect.collidepoint(click_pos)):
+                field.is_selected = True
+                field.text = ""
+            else:
+                field.is_selected = False
+                if (field.text == ""):
+                    field.text = field.initial_text
+        
+        if (typed_key != None):
+            if (field.is_selected):
+                if (typed_key.key == pygame.K_RETURN):
+                    break
+                if (typed_key.key == pygame.K_BACKSPACE):
+                    field.text = field.text[:-1]
+                if (typed_key.unicode.isprintable()):
+                    field.text += typed_key.unicode
+        
+        if (field.text != field.initial_text):
+            field.font_color = (0, 0, 0)
+        else:
+            field.font_color = (133, 133, 133)
+
         display.blit(field.image, field.rect)
+
+    new_fields = [[field.initial_text,
+                   field.text,
+                   field.is_selected,
+                   field.font_color] for i, field in enumerate(fields)]
 
     # Botones
     buttons = [
         Button(20, height - 80, 60, 60, "", "Autenticacion", "PYGAME/images/back_button1.png.png"),
-        Button(width//2 - 100, height - 100, 200, 80, "Crear Cuenta", "Menu")
+        Button(width//2 - 100, height - 100, 200, 80, "Crear Cuenta", "TyC")
     ]
+
+    data = [field.text for field in fields]
+
+    if (error):
+        font1 = pygame.font.Font("PYGAME/fonts/Kufam-Regular.ttf", 30)
+        disclaimer = font1.render("*Debes diligenciar todos los datos*", True, (255, 124, 124))
+        display.blit(disclaimer, (width//2 - 250, 560))
 
     for button in buttons:
         display.blit(button.image, button.rect)
         if (button.rect.collidepoint(click_pos)):
-            return button.to
+            form = [
+                ["Nombre", "Nombre", False, (133, 133, 133)],
+                ["Apellido", "Apellido", False, (133, 133, 133)],
+                ["Fecha de Nacimiento", "Fecha de Nacimiento", False, (133, 133, 133)],
+                ["Teléfono Celular", "Teléfono Celular", False, (133, 133, 133)],
+                ["Contraseña", "Contraseña", False, (133, 133, 133)],
+                ["Confirmar Contraseña", "Confirmar Contraseña", False, (133, 133, 133)],
+                ["Apodo", "Apodo", False, (133, 133, 133)]
+            ]
+            if (button.to == "Autenticacion"):
+                data = [None for i in range(7)]
+            else:
+                for field in fields:
+                    if (field.text == field.initial_text):
+                        return "Crear Cuenta", new_fields, None, True
+                file = open("PYGAME/jugadores.txt", "a")
+                file.write(" ".join([datum for datum in data]))
+            return button.to, form, data, False
 
-    return "Crear Cuenta"
+    return "Crear Cuenta", new_fields, None, error
 
 # VICTOR
 def tyc(display: pygame.Surface,
@@ -124,9 +181,11 @@ def menu(display: pygame.Surface,
     frankenstein = pygame.transform.scale(pygame.image.load("PYGAME/images/frankenstein.png").convert_alpha(), (90, 90))
     display.blit(zombie, (10, 10))
 
+    jugador = open("PYGAME/jugadores.txt", "r")
+    nombre = jugador.readline().split()[-1]
     font = pygame.font.Font("PYGAME/fonts/Koulen-Regular.ttf", 24)
-    nombre = font.render("UNNAMED", True, (255, 255, 255))
-    saldo = font.render("$XX XXX", True, (255, 255, 255))
+    nombre = font.render(nombre, True, (255, 255, 255))
+    saldo = font.render("$10 000", True, (255, 255, 255))
     display.blit(nombre, (110, 20))
     display.blit(saldo, (110, 45))
 
