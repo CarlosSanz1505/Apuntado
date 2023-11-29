@@ -29,6 +29,7 @@ if (os.stat("PYGAME/jugadores.txt").st_size == 0):
     screen = "Autenticacion"
 else:
     screen = "Menu"
+screen = "TyC"
 
 # Valores del Formulario en "Crear Cuenta"
 # [TEXTO_DEFAULT, TEXTO_INGRESADO, IS_SELECTED, IS_DEFAULT]
