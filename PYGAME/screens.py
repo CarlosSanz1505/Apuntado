@@ -224,39 +224,57 @@ def tokens(display: pygame.Surface,
     # Borrador
     # menu()
     ventana = pygame.image.load("PYGAME/images/window.png").convert_alpha()
-    ventana = pygame.transform.scale(ventana, (700, 500))
-    display.blit(ventana, (100, 100))
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    name = font.render("Selecciona un paquete de tokens:", True, white)
-    display.blit(name, (100, 100))
+    ventana = pygame.transform.scale(ventana, (600, 430))
+    display.blit(ventana, (150, 120))
 
-    #Imagenes paquetes
-    tokens = pygame.transform.scale(pygame.image.load("PYGAME/images/tokens_icon.png").convert_alpha(), (200, 100))
-    display.blit(tokens, (150,200))
-    display.blit(tokens, (350,200))
-    display.blit(tokens, (550,200))
-    display.blit(tokens, (150,400))
-    display.blit(tokens, (350,400))
-    display.blit(tokens, (550,400))
+    # Icono
+    icon = pygame.image.load("PYGAME/images/tokens_icon1.png.png").convert_alpha()
+    # icon = pygame.transform.scale(icon, ())
+    display.blit(icon, (width//2 - 80, 70))
 
-    
+    # Saldo
+    deco1 = pygame.image.load("PYGAME/images/tokens_deco1.png").convert_alpha()
+    deco1 = pygame.transform.scale(deco1, (70, 50))
+    display.blit(deco1, (170, 150))
+    font = pygame.font.Font("PYGAME/fonts/Koulen-Regular.ttf", 25)
+    saldo = font.render("$150 000", True, (0, 0, 0))
+    display.blit(saldo, (230, 155))
+
+    # Paquetes
+    small = "PYGAME/images/small_pkg.png"
+    medium = "PYGAME/images/medium_pkg.png"
+    big = "PYGAME/images/big_pkg.png"
+    paquetes = [
+        ["2K", small],
+        ["10K", small],
+        ["50K", medium],
+        ["100K", medium],
+        ["250K", big],
+        ["1M", big]
+    ]
+
+    for i, paquete in enumerate(paquetes):
+        block = pygame.image.load(paquete[1])
+        block = pygame.transform.scale(block, (113, 104))
+        display.blit(block, (250 + 133*(i%3), 220 + 150*(i//3)))
+        font = pygame.font.Font("PYGAME/fonts/Krub-Regular.ttf", 20)
+        price = font.render(paquete[0], True, (0, 0, 0))
+        display.blit(price, (290 + 133*(i%3), 220 + 150*(i//3)))
+
+    # Decoración
+    deco = pygame.image.load("PYGAME/images/tokens_deco.png").convert_alpha()
+    # deco = pygame.transform.scale(deco, ())
+    display.blit(deco, (640, 420))
 
     # Botones
     buttons = [
-        Button(150,300, btn_width, btn_height - 10, "$10000", "$10000", font_size=22),
-        Button(350,300, btn_width, btn_height - 10, "$20000", "$20000", font_size=22),
-        Button(550,300, btn_width, btn_height - 10, "$30000", "$30000", font_size=22),
-        Button(150,500, btn_width, btn_height - 10, "$40000", "$40000", font_size=22),
-        Button(350,500, btn_width, btn_height - 10, "$50000", "$50000", font_size=22),
-        Button(550,500, btn_width, btn_height - 10, "$60000", "$60000", font_size=22),
-        Button(190, 170, 100, 50, "10k", "", "PYGAME/images/blue_button.png"),
-        Button(390, 170, 100, 50, "20k", "", "PYGAME/images/blue_button.png"),
-        Button(590, 170, 100, 50, "30k", "", "PYGAME/images/blue_button.png"),
-        Button(190, 370, 100, 50, "40k", "", "PYGAME/images/blue_button.png"),
-        Button(390, 370, 100, 50, "50k", "", "PYGAME/images/blue_button.png"),
-        Button(590, 370, 100, 50, "60k", "", "PYGAME/images/blue_button.png"),
-        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+        Button(250, 310, 113, 50, "$3 000", "Tokens"),
+        Button(383, 310, 113, 50, "$5 000", "Tokens"),
+        Button(516, 310, 113, 50, "$10 000", "Tokens"),
+        Button(250, 460, 113, 50, "$80 000", "Tokens"),
+        Button(383, 460, 113, 50, "$120 000", "Tokens"),
+        Button(516, 460, 113, 50, "$200 000", "Tokens"),
+        Button(20, height - 110, 90, 90, "", "Menu", "PYGAME/images/back_button.png"),
     ]
 
     for button in buttons:
@@ -271,13 +289,7 @@ def personalizacion(display: pygame.Surface,
                     click_pos: tuple[int],
                     avatar: str) -> tuple[str]:
     
-    # Borrador
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    name = font.render("Selecciona tu nuevo diseño:", True, white)
-    display.blit(name, (100, 100))
-
-    # #Imagenes
+    # Imagenes
     diseño1 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas1.png").convert_alpha(), (150, 150))
     diseño2 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas2.png").convert_alpha(), (150, 150))
     diseño3 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas3.png").convert_alpha(), (150, 150))
@@ -304,7 +316,6 @@ def personalizacion(display: pygame.Surface,
         display.blit(boton.image, boton.rect)
         if (boton.rect.collidepoint(click_pos)):
             if (boton.text == "GUARDAR"):
-                print("hola")
                 file = open("PYGAME/jugadores.txt", "r+")
                 file.seek(0)
                 temp = " "+" ".join(file.readlines()[0].split()[1:])

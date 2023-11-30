@@ -53,6 +53,7 @@ form = [
 error = False
 
 avatar = "PYGAME/images/zombie.png"
+en_tokens = False
 
 # Cartas del Juego
 cards = []
