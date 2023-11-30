@@ -24,6 +24,8 @@ class Button(pygame.sprite.Sprite):
         self.image.blit(text_render, text_rect)
         self.rect = self.image.get_rect(topleft=(x, y))
         self.to = to
+        self.text = text
+        self.style = style
 
 
 class TextField(pygame.sprite.Sprite):
