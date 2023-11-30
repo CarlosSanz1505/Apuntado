@@ -29,7 +29,7 @@ width, height = 900, 700
 bg_color = (150, 0, 50)
 btn_width, btn_height = 180, 80
 
-# CARLOS
+
 def autenticacion(display: pygame.Surface,
                   click_pos: tuple[int]) -> str:
     
@@ -45,14 +45,24 @@ def autenticacion(display: pygame.Surface,
     for button in buttons:
         display.blit(button.image, button.rect)
 
+    form = [
+        ["Nombre", "Carlos", False, (133, 133, 133)],
+        ["Apellido", "Sanchez", False, (133, 133, 133)],
+        ["Fecha de Nacimiento", "22/02/22", False, (133, 133, 133)],
+        ["Teléfono Celular", "1324567890", False, (133, 133, 133)],
+        ["Contraseña", "*contra1", False, (133, 133, 133)],
+        ["Confirmar Contraseña", "*contra1", False, (133, 133, 133)],
+        ["Apodo", "C4RL05", False, (133, 133, 133)]
+    ]
+    
     # Funcionalidad Botón de Iniciar Sesión
     for button in buttons:
         if (button.rect.collidepoint(click_pos)):
-            return button.to
+            return button.to, form
     
-    return "Autenticacion"
+    return "Autenticacion", form
 
-# CARLOS
+
 def crear_cuenta(display: pygame.Surface,
                  on_click: bool,
                  click_pos: tuple[int],
@@ -133,44 +143,45 @@ def crear_cuenta(display: pygame.Surface,
                 for field in fields:
                     if (field.text == field.initial_text):
                         return "Crear Cuenta", new_fields, None, True
-                file = open("PYGAME/jugadores.txt", "a")
-                file.write(" ".join([datum for datum in data]))
+                file = open("PYGAME/jugadores.txt", "w")
+                file.write("PYGAME/images/zombie.png "+" ".join([datum for datum in data]))
             return button.to, form, data, False
 
     return "Crear Cuenta", new_fields, None, error
 
-# VICTOR
-def tyc(display: pygame.Surface, click_pos: tuple[int]) -> str:
-    # Configuración del texto del título
-    font_titulo = pygame.font.Font(None, 30)
-    blanco = (255, 255, 255)
-    titulo = font_titulo.render("Terminos y condiciones", True, blanco)
-    display.blit(titulo, (200, 50))  # Ajusta las coordenadas según sea necesario
 
-    ventana = pygame.image.load("PYGAME/images/window.png").convert_alpha()
-    ventana = pygame.transform.scale(ventana, (845, 450))
-    display.blit(ventana, (30, 100))
+def tyc(display: pygame.Surface,
+        click_pos: tuple[int],
+        scroll_offset) -> str:
+    # Configuración del texto del título
+    font_titulo = pygame.font.Font("PYGAME/fonts/Krub-Regular.ttf", 50)
+    titulo = font_titulo.render("Términos y Condiciones", True, (255, 255, 255))
+    display.blit(titulo, (width//2 - 270, 30))  # Ajusta las coordenadas según sea necesario
+
+    # ventana = pygame.image.load("PYGAME/images/window.png").convert_alpha()
+    # ventana = pygame.transform.scale(ventana, (845, 450))
+    # display.blit(ventana, (30, 100))
     
     botones=[
         Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
     ]
-    # Configuración del texto del contenido
-    font_contenido = pygame.font.Font(None, 20)
-    contenido = [
-        "Al participar en este juego de apuestas de cartas, el jugador acepta cumplir con todos los terminos y condiciones establecidos",
-        "a continuación:",
-        "",
-        "Edad Mínima: Solo se permite la participación de personas mayores de 18 años. Cualquier persona que no cumpla con este", 
-        "requisito no podrá participar en el juego.",
-        "",
-        "Responsabilidad del Jugador: Cada jugador es responsable de su propia conducta y acciones durante el juego. El juego se basa",
-        "en la honestidad y el fair play, por lo que cualquier intento de fraude o trampa resultará en la descalificación inmediata del",
-        "jugador.",
-        "",
-        "Las apuestas conllevan riesgos financieros significativos y pueden resultar en adicción al juego, afectando negativamente la", 
-        "salud mental, las relaciones personales y el desempeño laboral. Se recomienda practicar el juego de manera responsable y",
-        "buscar ayuda si se experimentan problemas."
-    ]
+    # # Configuración del texto del contenido
+    # font_contenido = pygame.font.Font(None, 20)
+    # contenido = [
+    #     "Al participar en este juego de apuestas de cartas, el jugador acepta cumplir con todos los terminos y condiciones establecidos",
+    #     "a continuación:",
+    #     "",
+    #     "Edad Mínima: Solo se permite la participación de personas mayores de 18 años. Cualquier persona que no cumpla con este", 
+    #     "requisito no podrá participar en el juego.",
+    #     "",
+    #     "Responsabilidad del Jugador: Cada jugador es responsable de su propia conducta y acciones durante el juego. El juego se basa",
+    #     "en la honestidad y el fair play, por lo que cualquier intento de fraude o trampa resultará en la descalificación inmediata del",
+    #     "jugador.",
+    #     "",
+    #     "Las apuestas conllevan riesgos financieros significativos y pueden resultar en adicción al juego, afectando negativamente la", 
+    #     "salud mental, las relaciones personales y el desempeño laboral. Se recomienda practicar el juego de manera responsable y",
+    #     "buscar ayuda si se experimentan problemas."
+    # ]
     botones=[
         Button(300, 600, 120, 70, "Aceptar", "Menu", "PYGAME/images/green_button.png"),
         Button(500, 600, 120, 70, "Rechazar", "Autenticacion", "PYGAME/images/green_button.png")
@@ -179,14 +190,64 @@ def tyc(display: pygame.Surface, click_pos: tuple[int]) -> str:
     for boton in botones:
         display.blit(boton.image, boton.rect)
         if (boton.rect.collidepoint(click_pos)):
-            return boton.to
+            return boton.to, scroll_offset
     
-    # Renderizar cada línea por separado y ajustar las posiciones
-    y_offset = 120
-    for linea in contenido:
-        texto_linea = font_contenido.render(linea, True, (0,0,0))
-        display.blit(texto_linea, (50, y_offset))
-        y_offset += 30  # Ajusta el espaciado entre líneas según sea necesario
+    # # Renderizar cada línea por separado y ajustar las posiciones
+    # y_offset = 120
+    # for linea in contenido:
+    #     texto_linea = font_contenido.render(linea, True, (0,0,0))
+    #     display.blit(texto_linea, (50, y_offset))
+    #     y_offset += 30  # Ajusta el espaciado entre líneas según sea necesario
+    
+    font = pygame.font.Font("PYGAME/fonts/Kufam-Regular.ttf", 25)
+    texto = [
+        "Al participar en este juego de apuestas",
+        "de cartas, el jugador acepta cumplir",
+        "con todos los terminos y condiciones",
+        "establecidos a continuación:",
+        "",
+        "Edad Mínima: Solo se permite la",
+        "participación de personas mayores de",
+        "18 años. Cualquier persona que no",
+        "cumpla con este requisito no podrá",
+        "participar en el juego.",
+        "",
+        "Responsabilidad del Jugador: Cada",
+        "jugador es responsable de su propia",
+        "conducta y acciones durante el juego.",
+        "El juego se basa en la honestidad y el",
+        "fair play, por lo que cualquier intento",
+        "de fraude o trampa resultará en la",
+        "descalificación inmediata del jugador.",
+        "",
+        "Las apuestas conllevan riesgos",
+        "financieros significativos y pueden",
+        "resultar en adicción al juego, afectando",
+        "negativamente la salud mental, las",
+        "relaciones personales y el desempeño",
+        "laboral. Se recomienda practicar el",
+        "juego de manera responsable y buscar",
+        "ayuda si se experimentan problemas."
+    ]
+
+    # SCROLLABLE
+    window = pygame.image.load("PYGAME/images/window.png").convert_alpha()
+    window = pygame.transform.scale(window, (600, 450))
+    display.blit(window, (width//2 - 300, 120))
+    viewport_rect = pygame.Rect(0, 0, width, height-330)
+    viewport_rect.y = scroll_offset
+    virtual_surface = pygame.Surface([600, 1300], pygame.SRCALPHA, 32)
+    virtual_surface = virtual_surface.convert_alpha()
+    for i in range(len(texto)):
+        line = font.render(texto[i], True, (0, 0, 0))
+        virtual_surface.blit(line, (50, i*40))
+    display.blit(virtual_surface, (width//2 - 300, 160), viewport_rect)
+
+    page_bar = pygame.Rect(width//2 + 255, 160, 20, height-330)
+    pygame.draw.rect(display, (150, 150, 150), page_bar)
+    portion_bar = pygame.Rect(width//2 + 255, 160, 20, (height-330)*(height-330)/1300)
+    portion_bar.y = 160 + 0.335*(scroll_offset/(1300-height)) * (height-portion_bar.height)
+    pygame.draw.rect(display, (50, 50, 50,), portion_bar)
     
     # Verificar si la posición del clic está dentro de los límites del texto del título
     rectangulo_titulo = titulo.get_rect(topleft=(200, 50))
@@ -194,9 +255,9 @@ def tyc(display: pygame.Surface, click_pos: tuple[int]) -> str:
         # Agregar lógica para lo que sucede cuando se hace clic en el título
         print("Título de Información clicleado!")
     
-    return "TyC"
+    return "TyC", scroll_offset
 
-# CARLOS
+
 def menu(display: pygame.Surface,
          click_pos: tuple[int]) -> str:
     
@@ -250,7 +311,7 @@ def menu(display: pygame.Surface,
 
     return "Menu"
 
-# (OPCIONAL) VICTOR
+
 def cuenta(display: pygame.Surface,
            click_pos: tuple[int]) -> str:
     
@@ -263,7 +324,7 @@ def cuenta(display: pygame.Surface,
     
     return "Cuenta"
 
-# VICTOR
+
 def tokens(display: pygame.Surface,
            click_pos: tuple[int]) -> str:
     
@@ -283,7 +344,7 @@ def tokens(display: pygame.Surface,
     deco1 = pygame.transform.scale(deco1, (70, 50))
     display.blit(deco1, (170, 150))
     font = pygame.font.Font("PYGAME/fonts/Koulen-Regular.ttf", 25)
-    saldo = font.render("$150 000", True, (0, 0, 0))
+    saldo = font.render("$10 000", True, (0, 0, 0))
     display.blit(saldo, (230, 155))
 
     # Paquetes
@@ -330,7 +391,7 @@ def tokens(display: pygame.Surface,
 
     return "Tokens"
 
-# VICTOR
+
 def personalizacion(display: pygame.Surface,
                     click_pos: tuple[int],
                     avatar: str) -> tuple[str]:
@@ -377,7 +438,7 @@ def personalizacion(display: pygame.Surface,
     
     return "Personalizacion", str(avatar)
 
-# ??????
+
 def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
     
     # Configuración del texto del título
@@ -436,7 +497,8 @@ def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
         print("Título de Información clicleado!")
     
     return "Informacion"
-# CARLOS
+
+
 def bot(display: pygame.Surface,
            click_pos: tuple[int],
            cards: list[pygame.Surface],

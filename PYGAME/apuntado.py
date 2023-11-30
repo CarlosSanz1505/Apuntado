@@ -29,19 +29,7 @@ if (os.stat("PYGAME/jugadores.txt").st_size == 0):
     screen = "Autenticacion"
 else:
     screen = "Menu"
-screen = "TyC"
 
-# Valores del Formulario en "Crear Cuenta"
-# [TEXTO_DEFAULT, TEXTO_INGRESADO, IS_SELECTED, IS_DEFAULT]
-# form = [
-#     ["Nombre", "Nombre", False, (133, 133, 133)],
-#     ["Apellido", "Apellido", False, (133, 133, 133)],
-#     ["Fecha de Nacimiento", "Fecha de Nacimiento", False, (133, 133, 133)],
-#     ["Teléfono Celular", "Teléfono Celular", False, (133, 133, 133)],
-#     ["Contraseña", "Contraseña", False, (133, 133, 133)],
-#     ["Confirmar Contraseña", "Confirmar Contraseña", False, (133, 133, 133)],
-#     ["Apodo", "Apodo", False, (133, 133, 133)]
-# ]
 form = [
     ["Nombre", "Carlos", False, (133, 133, 133)],
     ["Apellido", "Sanchez", False, (133, 133, 133)],
@@ -58,6 +46,8 @@ en_tokens = False
 
 # Cartas del Juego
 cards = []
+
+scroll_offset = 0
 
 # Ciclo del Juego
 while True:
@@ -87,15 +77,22 @@ while True:
         
         if (event.type == pygame.KEYDOWN):
             pressed_key = event
+        
+        if (event.type == pygame.MOUSEBUTTONDOWN
+            and event.button == 4):
+            scroll_offset = max(0, scroll_offset - 10)
+        if (event.type == pygame.MOUSEBUTTONDOWN
+            and event.button == 5):
+            scroll_offset = min(1500 - height, scroll_offset + 10)
     
     # Pantalla a mostrar
     match screen:
         case "Autenticacion":
-            screen = autenticacion(display, click_pos)
+            screen, form = autenticacion(display, click_pos)
         case "Crear Cuenta":
             screen, form, data, error = crear_cuenta(display, on_click, click_pos, form, pressed_key, error)
         case "TyC":
-            screen = tyc(display, click_pos)
+            screen, scroll_offset = tyc(display, click_pos, scroll_offset)
         case "Menu":
             screen = menu(display, click_pos)
         # OPCIONAL
