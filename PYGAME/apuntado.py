@@ -33,16 +33,28 @@ screen = "TyC"
 
 # Valores del Formulario en "Crear Cuenta"
 # [TEXTO_DEFAULT, TEXTO_INGRESADO, IS_SELECTED, IS_DEFAULT]
+# form = [
+#     ["Nombre", "Nombre", False, (133, 133, 133)],
+#     ["Apellido", "Apellido", False, (133, 133, 133)],
+#     ["Fecha de Nacimiento", "Fecha de Nacimiento", False, (133, 133, 133)],
+#     ["Teléfono Celular", "Teléfono Celular", False, (133, 133, 133)],
+#     ["Contraseña", "Contraseña", False, (133, 133, 133)],
+#     ["Confirmar Contraseña", "Confirmar Contraseña", False, (133, 133, 133)],
+#     ["Apodo", "Apodo", False, (133, 133, 133)]
+# ]
 form = [
-    ["Nombre", "Nombre", False, (133, 133, 133)],
-    ["Apellido", "Apellido", False, (133, 133, 133)],
-    ["Fecha de Nacimiento", "Fecha de Nacimiento", False, (133, 133, 133)],
-    ["Teléfono Celular", "Teléfono Celular", False, (133, 133, 133)],
-    ["Contraseña", "Contraseña", False, (133, 133, 133)],
-    ["Confirmar Contraseña", "Confirmar Contraseña", False, (133, 133, 133)],
-    ["Apodo", "Apodo", False, (133, 133, 133)]
+    ["Nombre", "Carlos", False, (133, 133, 133)],
+    ["Apellido", "Sanchez", False, (133, 133, 133)],
+    ["Fecha de Nacimiento", "22/02/22", False, (133, 133, 133)],
+    ["Teléfono Celular", "1324567890", False, (133, 133, 133)],
+    ["Contraseña", "*contra1", False, (133, 133, 133)],
+    ["Confirmar Contraseña", "*contra1", False, (133, 133, 133)],
+    ["Apodo", "C4RL05", False, (133, 133, 133)]
 ]
 error = False
+
+# Cartas del Juego
+cards = []
 
 # Ciclo del Juego
 while True:
@@ -93,7 +105,7 @@ while True:
         case "Informacion":
             screen = informacion(display, click_pos)
         case "Bot":
-            screen = bot(display, click_pos)
+            screen, cards = bot(display, click_pos, cards)
     
     # [para facilitar Debugging]
     button_menu = Button(width//2 - 100/2, 20, 100, 50,
