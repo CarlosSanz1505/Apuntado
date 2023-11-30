@@ -265,6 +265,11 @@ def bot(display: pygame.Surface,
     table = pygame.transform.scale(table, (500, 440))
     display.blit(table, (width//2 - 250, 100))
 
+    # Temporizador
+    timer = pygame.image.load("PYGAME/images/timer.png").convert_alpha()
+    timer = pygame.transform.scale(timer, (140, 100))
+    display.blit(timer, (width - 150, height - 120))
+
     # Mano del Jugador
     hand = pygame.image.load("PYGAME/images/hand.png").convert_alpha()
     hand = pygame.transform.scale(hand, (550, 200))
