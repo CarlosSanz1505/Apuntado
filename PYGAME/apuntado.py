@@ -52,6 +52,8 @@ form = [
 ]
 error = False
 
+avatar = "PYGAME/images/zombie.png"
+
 # Cartas del Juego
 cards = []
 
@@ -100,17 +102,17 @@ while True:
         case "Tokens":
             screen = tokens(display, click_pos)
         case "Personalizacion":
-            screen = personalizacion(display, click_pos)
+            screen, avatar = personalizacion(display, click_pos, avatar)
         case "Informacion":
             screen = informacion(display, click_pos)
         case "Bot":
             screen, cards = bot(display, click_pos, cards)
     
-    # [para facilitar Debugging]
-    button_menu = Button(width//2 - 100/2, 20, 100, 50,
-                         "Menu", "Menu")
-    display.blit(button_menu.image, button_menu.rect)
-    if (button_menu.rect.collidepoint(click_pos)):
-        screen = "Menu"
+    # # [para facilitar Debugging]
+    # button_menu = Button(width//2 - 100/2, 20, 100, 50,
+    #                      "Menu", "Menu")
+    # display.blit(button_menu.image, button_menu.rect)
+    # if (button_menu.rect.collidepoint(click_pos)):
+    #     screen = "Menu"
 
     pygame.display.update()
