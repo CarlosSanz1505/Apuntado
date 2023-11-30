@@ -223,10 +223,47 @@ def tokens(display: pygame.Surface,
            click_pos: tuple[int]) -> str:
     
     # Borrador
+    # menu()
+    ventana = pygame.image.load("PYGAME/images/window.png").convert_alpha()
+    ventana = pygame.transform.scale(ventana, (700, 500))
+    display.blit(ventana, (100, 100))
     font = pygame.font.Font(None, 30)
     white = (255, 255, 255)
-    name = font.render("[tokens]", True, white)
-    display.blit(name, (400, 100))
+    name = font.render("Selecciona un paquete de tokens:", True, white)
+    display.blit(name, (100, 100))
+
+    #Imagenes paquetes
+    tokens = pygame.transform.scale(pygame.image.load("PYGAME/images/tokens_icon.png").convert_alpha(), (200, 100))
+    display.blit(tokens, (150,200))
+    display.blit(tokens, (350,200))
+    display.blit(tokens, (550,200))
+    display.blit(tokens, (150,400))
+    display.blit(tokens, (350,400))
+    display.blit(tokens, (550,400))
+
+    
+
+    # Botones
+    buttons = [
+        Button(150,300, btn_width, btn_height - 10, "$10000", "$10000", font_size=22),
+        Button(350,300, btn_width, btn_height - 10, "$20000", "$20000", font_size=22),
+        Button(550,300, btn_width, btn_height - 10, "$30000", "$30000", font_size=22),
+        Button(150,500, btn_width, btn_height - 10, "$40000", "$40000", font_size=22),
+        Button(350,500, btn_width, btn_height - 10, "$50000", "$50000", font_size=22),
+        Button(550,500, btn_width, btn_height - 10, "$60000", "$60000", font_size=22),
+        Button(190, 170, 100, 50, "10k", "", "PYGAME/images/blue_button.png"),
+        Button(390, 170, 100, 50, "20k", "", "PYGAME/images/blue_button.png"),
+        Button(590, 170, 100, 50, "30k", "", "PYGAME/images/blue_button.png"),
+        Button(190, 370, 100, 50, "40k", "", "PYGAME/images/blue_button.png"),
+        Button(390, 370, 100, 50, "50k", "", "PYGAME/images/blue_button.png"),
+        Button(590, 370, 100, 50, "60k", "", "PYGAME/images/blue_button.png"),
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
+
+    for button in buttons:
+        display.blit(button.image, button.rect)
+        if (button.rect.collidepoint(click_pos)):
+            return button.to
 
     return "Tokens"
 
@@ -237,21 +274,102 @@ def personalizacion(display: pygame.Surface,
     # Borrador
     font = pygame.font.Font(None, 30)
     white = (255, 255, 255)
-    name = font.render("[personalizacion]", True, white)
-    display.blit(name, (400, 100))
+    name = font.render("Selecciona tu nuevo diseño:", True, white)
+    display.blit(name, (100, 100))
 
+    #Imagenes
+    joker = pygame.transform.scale(pygame.image.load("PYGAME/images/joker.png").convert_alpha(), (110, 110))
+    mummy = pygame.transform.scale(pygame.image.load("PYGAME/images/mummy.png").convert_alpha(), (110, 110))
+    vampire = pygame.transform.scale(pygame.image.load("PYGAME/images/vampire.png").convert_alpha(), (110, 110))
+    zombie = pygame.transform.scale(pygame.image.load("PYGAME/images/zombie.png").convert_alpha(), (110, 110))
+    frankenstein = pygame.transform.scale(pygame.image.load("PYGAME/images/frankenstein.png").convert_alpha(), (110, 110))
+    # guardar=Button(550,500, btn_width, btn_height - 10, "Guardar", "Guardar", font_size=22),   
+    display.blit(zombie, (250, 200))
+    display.blit(joker,(400,200))
+    display.blit(mummy,(550,200))
+    display.blit(vampire,(100,200))
+    display.blit(frankenstein,(700,200))
+    diseño1 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas1.png").convert_alpha(), (150, 150))
+    diseño2 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas2.png").convert_alpha(), (150, 150))
+    diseño3 = pygame.transform.scale(pygame.image.load("PYGAME/images/cartas3.png").convert_alpha(), (150, 150))
+    display.blit(diseño1, (650,370))
+    display.blit(diseño2, (150,370 ))
+    display.blit(diseño3, (400,370))
+
+    #Botones
+    botones=[
+        Button(350,600, btn_width, btn_height - 10, "Guardar", "Personalizacion", font_size=22),
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+        # Button()
+    ]
+
+    for boton in botones:
+        display.blit(boton.image, boton.rect)
+        if (boton.rect.collidepoint(click_pos)):
+            return boton.to
+    
     return "Personalizacion"
 
 # ??????
-def informacion(display: pygame.Surface,
-                click_pos: tuple[int]):
+def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
+    # Configuración de la pantalla
+    display.fill((0, 0, 0))  # Rellenar la pantalla con color negro
     
-    # Borrador
-    font = pygame.font.Font(None, 30)
-    white = (255, 255, 255)
-    name = font.render("[reglas y tutorial]", True, white)
-    display.blit(name, (400, 100))
+    # Configuración del texto del título
+    font_titulo = pygame.font.Font(None, 30)
+    blanco = (255, 255, 255)
+    titulo = font_titulo.render("Reglas y Tutorial", True, blanco)
+    display.blit(titulo, (200, 50))  # Ajusta las coordenadas según sea necesario
+    
+    botones=[
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
+    # Configuración del texto del contenido
+    font_contenido = pygame.font.Font(None, 20)
+    contenido = [
+        "En su turno, un jugador puede realizar una de las siguientes acciones:",
+        "-Arrastrar-Tirar-Tocar",
+        "Para ganar, un jugador debe tener una de las siguientes combinaciones en su mano:",
+        "-2 quintas (sucesión de 5 cartas consecutivas del mismo palo).",
+        "-2 cuartas, siempre y cuando el puntaje de las cartas restantes en su mano sea inferior a 5.",
+        "-3 ternas, siempre y cuando la carta sobrante sea menor o igual a 5.",
+        "-2 ternas y una cuarta.",
+        "Ganar una ronda:",
+        "Cuando un jugador logra una combinación ganadora, debe declarar <<Apuntado>> y detener el juego.",
+        "El jugador que gana la ronda suma 10 puntos a su puntaje total.",
+        "Los demás jugadores deben mostrar sus manos y sumar los puntos de las cartas que no formen parte de las combinaciones",
+        "ganadoras, agregando estos puntos como un valor negativo a su puntaje total.",
+        "Puntaje:"
+        "Cada carta tiene un valor según su número. Por ejemplo, los Ases valen 1 punto, las cartas del 2 al 10 valen su valor", 
+        "nominal y las figuras (Jotas, Reinas y Reyes) valen 10 puntos cada una.",
+        "Los jugadores suman sus puntos al final de cada ronda.",
+        "Ganar el juego:",
+        "El juego continúa hasta que un jugador alcanza o supera los 110 puntos positivos.",
+        "Si en algún momento un jugador tiene un puntaje negativo inferior a -110, pierde el juego automáticamente.",
+        "Si todos los jugadores tienen un puntaje negativo inferior a -110, el último jugador con el puntaje menos negativo gana."
+    ]
+    botones=[
+        Button(750, 20, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
 
+    for boton in botones:
+        display.blit(boton.image, boton.rect)
+        if (boton.rect.collidepoint(click_pos)):
+            return boton.to
+    
+    # Renderizar cada línea por separado y ajustar las posiciones
+    y_offset = 120
+    for linea in contenido:
+        texto_linea = font_contenido.render(linea, True, blanco)
+        display.blit(texto_linea, (50, y_offset))
+        y_offset += 30  # Ajusta el espaciado entre líneas según sea necesario
+    
+    # Verificar si la posición del clic está dentro de los límites del texto del título
+    rectangulo_titulo = titulo.get_rect(topleft=(200, 50))
+    if rectangulo_titulo.collidepoint(click_pos):
+        # Agregar lógica para lo que sucede cuando se hace clic en el título
+        print("Título de Información clicleado!")
+    
     return "Informacion"
 
 # CARLOS
