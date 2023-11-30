@@ -141,30 +141,58 @@ def crear_cuenta(display: pygame.Surface,
 
 # VICTOR
 def tyc(display: pygame.Surface, click_pos: tuple[int]) -> str:
-    # Configuración de la pantalla
-    display.fill((0, 0, 0))  # Rellenar la pantalla con color negro
-    
     # Configuración del texto del título
-    font_titulo = pygame.font.Font(None, 40)
+    font_titulo = pygame.font.Font(None, 30)
     blanco = (255, 255, 255)
-    titulo = font_titulo.render("Términos y Condiciones", True, blanco)
+    titulo = font_titulo.render("Terminos y condiciones", True, blanco)
     display.blit(titulo, (200, 50))  # Ajusta las coordenadas según sea necesario
+
+    ventana = pygame.image.load("PYGAME/images/window.png").convert_alpha()
+    ventana = pygame.transform.scale(ventana, (845, 450))
+    display.blit(ventana, (30, 100))
     
-    # Configuración del texto de los términos y condiciones
-    font_contenido = pygame.font.Font(None, 30)
-    contenido = (
-        "1. Este es un ejemplo de términos y condiciones.\n"
-        "2. Puedes personalizar este texto según tus necesidades.\n"
-        "3. Asegúrate de cumplir con todas las políticas establecidas."
-    )
-    texto_contenido = font_contenido.render(contenido, True, blanco)
-    display.blit(texto_contenido, (50, 120))  # Ajusta las coordenadas según sea necesario
+    botones=[
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
+    # Configuración del texto del contenido
+    font_contenido = pygame.font.Font(None, 20)
+    contenido = [
+        "Al participar en este juego de apuestas de cartas, el jugador acepta cumplir con todos los terminos y condiciones establecidos",
+        "a continuación:",
+        "",
+        "Edad Mínima: Solo se permite la participación de personas mayores de 18 años. Cualquier persona que no cumpla con este", 
+        "requisito no podrá participar en el juego.",
+        "",
+        "Responsabilidad del Jugador: Cada jugador es responsable de su propia conducta y acciones durante el juego. El juego se basa",
+        "en la honestidad y el fair play, por lo que cualquier intento de fraude o trampa resultará en la descalificación inmediata del",
+        "jugador.",
+        "",
+        "Las apuestas conllevan riesgos financieros significativos y pueden resultar en adicción al juego, afectando negativamente la", 
+        "salud mental, las relaciones personales y el desempeño laboral. Se recomienda practicar el juego de manera responsable y",
+        "buscar ayuda si se experimentan problemas."
+    ]
+    botones=[
+        Button(300, 600, 120, 70, "Aceptar", "Menu", "PYGAME/images/green_button.png"),
+        Button(500, 600, 120, 70, "Rechazar", "Autenticacion", "PYGAME/images/green_button.png")
+    ]
+
+    for boton in botones:
+        display.blit(boton.image, boton.rect)
+        if (boton.rect.collidepoint(click_pos)):
+            return boton.to
+    
+    # Renderizar cada línea por separado y ajustar las posiciones
+    y_offset = 120
+    for linea in contenido:
+        texto_linea = font_contenido.render(linea, True, (0,0,0))
+        display.blit(texto_linea, (50, y_offset))
+        y_offset += 30  # Ajusta el espaciado entre líneas según sea necesario
     
     # Verificar si la posición del clic está dentro de los límites del texto del título
     rectangulo_titulo = titulo.get_rect(topleft=(200, 50))
     if rectangulo_titulo.collidepoint(click_pos):
         # Agregar lógica para lo que sucede cuando se hace clic en el título
-        print("Título clicleado!")
+        print("Título de Información clicleado!")
     
     return "TyC"
 
@@ -351,8 +379,6 @@ def personalizacion(display: pygame.Surface,
 
 # ??????
 def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
-    # Configuración de la pantalla
-    display.fill((0, 0, 0))  # Rellenar la pantalla con color negro
     
     # Configuración del texto del título
     font_titulo = pygame.font.Font(None, 30)
