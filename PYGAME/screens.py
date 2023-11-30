@@ -274,13 +274,13 @@ def tokens(display: pygame.Surface,
         Button(190, 370, 100, 50, "40k", "", "PYGAME/images/blue_button.png"),
         Button(390, 370, 100, 50, "50k", "", "PYGAME/images/blue_button.png"),
         Button(590, 370, 100, 50, "60k", "", "PYGAME/images/blue_button.png"),
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
     ]
 
     for button in buttons:
         display.blit(button.image, button.rect)
-
-    precio1 = font.render("10K", True, (0, 0, 0))
-    display.blit(precio1, (250, 100))
+        if (button.rect.collidepoint(click_pos)):
+            return button.to
 
     return "Tokens"
 
@@ -315,7 +315,8 @@ def personalizacion(display: pygame.Surface,
 
     #Botones
     botones=[
-        Button(350,600, btn_width, btn_height - 10, "Guardar", "Menu", font_size=22),
+        Button(350,600, btn_width, btn_height - 10, "Guardar", "Personalizacion", font_size=22),
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
         # Button()
     ]
 
@@ -337,6 +338,9 @@ def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
     titulo = font_titulo.render("Reglas y Tutorial", True, blanco)
     display.blit(titulo, (200, 50))  # Ajusta las coordenadas según sea necesario
     
+    botones=[
+        Button(20, height - 100, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
     # Configuración del texto del contenido
     font_contenido = pygame.font.Font(None, 20)
     contenido = [
@@ -361,6 +365,14 @@ def informacion(display: pygame.Surface, click_pos: tuple[int]) -> str:
         "Si en algún momento un jugador tiene un puntaje negativo inferior a -110, pierde el juego automáticamente.",
         "Si todos los jugadores tienen un puntaje negativo inferior a -110, el último jugador con el puntaje menos negativo gana."
     ]
+    botones=[
+        Button(750, 20, 85, 90, "", "Menu", "PYGAME/images/back_button.png"),
+    ]
+
+    for boton in botones:
+        display.blit(boton.image, boton.rect)
+        if (boton.rect.collidepoint(click_pos)):
+            return boton.to
     
     # Renderizar cada línea por separado y ajustar las posiciones
     y_offset = 120
