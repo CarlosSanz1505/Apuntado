@@ -1,1 +1,1 @@
-PYGAME/images/zombie.png Carlos Sanchez 22/02/22 1324567890 *contra1 *contra1 C4RL05
+PYGAME/images/joker.png Carlos Sanchez 22/02/22 1324567890 *contra1 *contra1 C4RL05

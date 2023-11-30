@@ -327,7 +327,6 @@ def personalizacion(display: pygame.Surface,
                 file.close()
             else:
                 avatar = str(boton.style)
-                print(avatar)
             return boton.to, avatar
     
     return "Personalizacion", str(avatar)
